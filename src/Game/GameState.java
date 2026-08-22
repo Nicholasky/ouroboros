@@ -1,6 +1,8 @@
-abstract class GameState{
+public abstract class GameState{
     Board board;
-    BoardBuilder builder;
-
+    
+    public GameState(Board b){
+        this.board = b;
+    }
 
 }
