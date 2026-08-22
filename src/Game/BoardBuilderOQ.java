@@ -2,22 +2,62 @@
 // So, take an argument that says "Which arrangement of purple spheres is this?"
 // and then build a board based on that
 
+// ASSUMES That number of purples WILL ALWAYS be 4 (for the purpose of this minigame)
 public class BoardBuilderOQ implements BoardBuilder {
 
-    // by default for now
+    // randomly make a board by default
     public Board build(){
-        return build(0, 1, 2, 3);
+        int rand = (int)Math.floor(12650.0 * Math.random());
+        return build(rand);
     }
 
+    // supply an arrangement (0 to 12649)
     public Board build(int arrangement){
-        return build(-1, -1, -1, -1);
+        int[] purples = _decodeArrangement(arrangement);
+
+        return build(purples);
     }
 
     // takes 4 different purple positions, build the other tiles around them
-    public Board build(int p1, int p2, int p3, int p4){
+    public Board build(int[] purples){
         Board board = new Board();
 
         return board;
+    }
+
+
+
+    private static int[] _decodeArrangement(int arrangement){
+        int[] values = new int[4];
+        int remainder = arrangement;
+
+        for(int i = 0; i < 4; i++){
+            int k = 4 - i;  // k: index of array
+            int j = k - 1;  // j: highest value that fulfills nCr(j, k) <= rem
+            
+            while(nCr(j+1, k) <= remainder){
+                j++;
+            }
+
+            values[i] = j;
+            remainder -= nCr(j, k);
+        }
+
+
+        return values;
+    }
+
+    private static int nCr(int n, int k) {
+        if (k < 0 || k > n) return 0;
+        if (k == 0 || k == n) return 1;
+
+        if (k > n / 2) k = n - k;
+
+        long result = 1;
+        for (int i = 1; i <= k; i++) {
+            result = result * (n - i + 1) / i;
+        }
+        return (int) result;
     }
 
 }
