@@ -9,6 +9,10 @@ public class BoardBuilderOQ implements BoardBuilder {
         return build(0, 1, 2, 3);
     }
 
+    public Board build(int arrangement){
+        return build(-1, -1, -1, -1);
+    }
+
     // takes 4 different purple positions, build the other tiles around them
     public Board build(int p1, int p2, int p3, int p4){
         Board board = new Board();
