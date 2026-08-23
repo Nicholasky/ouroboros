@@ -1,7 +1,12 @@
 public class Sphere{
-    int value;
-    int timesPressed;
-    int baseValue;
-    int color;  // to  change later
+    SphereType type;
+
+    public Sphere(SphereType type) {
+        this.type = type;
+    }
+
+    public SphereType getType() {
+        return type;
+    }
 
 }
