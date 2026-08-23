@@ -28,18 +28,19 @@ public class BoardBuilderOQ implements BoardBuilder {
     
     public Board build(int[] purples){
         Board board = new Board();
+        Tile[][] tiles = board.getTiles();
 
         for (int pos : purples) {
             int row = pos / 5;
             int col = pos % 5;
 
-            board.getTiles()[row][col] = new Tile(new Sphere(SphereType.purple));
+            tiles[row][col] = new Tile(new Sphere(SphereType.purple));
         }
 
         for (int row = 0; row < 5; row++) {
             for (int col = 0; col < 5; col++) {
 
-                if (board.getTiles()[row][col] != null) {
+                if (tiles[row][col] != null) {
                     continue;
                 }
 
@@ -68,8 +69,7 @@ public class BoardBuilderOQ implements BoardBuilder {
                         throw new IllegalStateException();
                 };
 
-                board.getTiles()[row][col] =
-                    new Tile(new Sphere(type));
+                tiles[row][col] = new Tile(new Sphere(type));
             }
 
         }
@@ -91,6 +91,7 @@ public class BoardBuilderOQ implements BoardBuilder {
                 int r = row + dr;
                 int c = col + dc;
 
+                // avoid outofbounds checking
                 if (r < 0 || r >= 5 || c < 0 || c >= 5) {
                     continue;
                 }
@@ -107,7 +108,7 @@ public class BoardBuilderOQ implements BoardBuilder {
         return count;
     }
 
-
+    // Decode an arrangement-id in [0, 12649] to a unique arrangement of 4 purple spheres in a 5x5 grid 
     private static int[] _decodeArrangement(int arrangement){
         int[] values = new int[4];
         int remainder = arrangement;
@@ -128,6 +129,7 @@ public class BoardBuilderOQ implements BoardBuilder {
         return values;
     }
 
+    // calc number of combinations; n choose k
     private static int nCr(int n, int k) {
         if (k < 0 || k > n) return 0;
         if (k == 0 || k == n) return 1;
