@@ -14,7 +14,7 @@ public class BoardBuilderOQ implements BoardBuilder {
     // supply an arrangement (0 to 12649)
     public Board build(int arrangement){
         int[] purples = _decodeArrangement(arrangement);
-
+    
         return build(purples);
     }
 
@@ -25,14 +25,87 @@ public class BoardBuilderOQ implements BoardBuilder {
     //          2: green
     //          3: yellow
     //          4: orange
-    // 
-
+    
     public Board build(int[] purples){
         Board board = new Board();
+
+        for (int pos : purples) {
+            int row = pos / 5;
+            int col = pos % 5;
+
+            board.getTiles()[row][col] = new Tile(new Sphere(SphereType.purple));
+        }
+
+        for (int row = 0; row < 5; row++) {
+            for (int col = 0; col < 5; col++) {
+
+                if (board.getTiles()[row][col] != null) {
+                    continue;
+                }
+
+                int adjacentPurples =
+                    countAdjacentPurples(board, row, col);
+
+                SphereType type; 
+
+                switch (adjacentPurples) {
+                    case 0: 
+                        type = SphereType.blue;
+                        break;
+                    case 1:
+                        type = SphereType.teal;
+                        break;
+                    case 2:
+                        type = SphereType.green;
+                        break;
+                    case 3:
+                        type = SphereType.yellow;
+                        break;
+                    case 4:
+                        type = SphereType.orange;
+                        break;
+                    default:
+                        throw new IllegalStateException();
+                };
+
+                board.getTiles()[row][col] =
+                    new Tile(new Sphere(type));
+            }
+
+        }
 
         return board;
     }
 
+
+    private int countAdjacentPurples(Board board, int row, int col) {
+        int count = 0;
+
+        for (int dr = -1; dr <= 1; dr++) {
+            for (int dc = -1; dc <= 1; dc++) {
+
+                if (dr == 0 && dc == 0) {
+                    continue;
+                }
+
+                int r = row + dr;
+                int c = col + dc;
+
+                if (r < 0 || r >= 5 || c < 0 || c >= 5) {
+                    continue;
+                }
+
+                Tile tile = board.getTiles()[r][c];
+
+                if (tile != null &&
+                    tile.getSphere().getType().getColor() == Color.PURPLE) {
+                    count++;
+                }
+            }
+        }
+
+        return count;
+    }
 
 
     private static int[] _decodeArrangement(int arrangement){
