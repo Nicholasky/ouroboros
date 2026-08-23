@@ -1,3 +1,5 @@
+package game.sphere;
+
 public class Sphere{
     SphereType type;
 

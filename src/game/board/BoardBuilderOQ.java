@@ -1,3 +1,10 @@
+package game.board;
+
+import game.sphere.Sphere;
+import game.sphere.SphereType;
+
+import math.Combinatorics;
+
 // Intended to build a board based on pre-defined locations of 4 tiles with purple spheres
 // So, take an argument that says "Which arrangement of purple spheres is this?"
 // and then build a board based on that
@@ -13,11 +20,12 @@ public class BoardBuilderOQ implements BoardBuilder {
 
     // supply an arrangement (0 to 12649)
     public Board build(int arrangement){
-        int[] purples = _decodeArrangement(arrangement);
+        int[] purples = Combinatorics.decodeArrangement(arrangement, 4);
     
         return build(purples);
     }
 
+    
     // takes 4 different purple positions, build the other tiles around them
     // rules:   color defined by number of adjacent purples  (in the 8 tiles around this tile)
     //          0: blue
@@ -25,7 +33,6 @@ public class BoardBuilderOQ implements BoardBuilder {
     //          2: green
     //          3: yellow
     //          4: orange
-    
     public Board build(int[] purples){
         Board board = new Board();
         Tile[][] tiles = board.getTiles();
@@ -106,41 +113,6 @@ public class BoardBuilderOQ implements BoardBuilder {
         }
 
         return count;
-    }
-
-    // Decode an arrangement-id in [0, 12649] to a unique arrangement of 4 purple spheres in a 5x5 grid 
-    private static int[] _decodeArrangement(int arrangement){
-        int[] values = new int[4];
-        int remainder = arrangement;
-
-        for(int i = 0; i < 4; i++){
-            int k = 4 - i;  // k: index of array
-            int j = k - 1;  // j: highest value that fulfills nCr(j, k) <= rem
-            
-            while(nCr(j+1, k) <= remainder){
-                j++;
-            }
-
-            values[i] = j;
-            remainder -= nCr(j, k);
-        }
-
-
-        return values;
-    }
-
-    // calc number of combinations; n choose k
-    private static int nCr(int n, int k) {
-        if (k < 0 || k > n) return 0;
-        if (k == 0 || k == n) return 1;
-
-        if (k > n / 2) k = n - k;
-
-        long result = 1;
-        for (int i = 1; i <= k; i++) {
-            result = result * (n - i + 1) / i;
-        }
-        return (int) result;
     }
 
 }

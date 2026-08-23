@@ -1,3 +1,5 @@
+package game.sphere;
+
 public enum Color {
     PURPLE,
     BLUE,
