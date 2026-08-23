@@ -1,3 +1,5 @@
+package game.sphere;
+
 public class SphereType {
     final Color color;
     final int baseValue;
@@ -33,7 +35,7 @@ public class SphereType {
         this.value = newValue;
     }
 
-    void click(){
+    public void click(){
         ++timesPressed;
     }
 

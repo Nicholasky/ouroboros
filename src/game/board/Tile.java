@@ -1,3 +1,9 @@
+package game.board;
+
+import game.sphere.Sphere;
+import game.sphere.SphereType;
+
+
 public class Tile {
     Sphere sp;
     boolean revealed = false;

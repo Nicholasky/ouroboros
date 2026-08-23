@@ -1,3 +1,5 @@
+package game.board;
+
 public class Board {
     Tile[][] tiles;
 
