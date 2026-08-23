@@ -34,7 +34,7 @@ public class BoardBuilderOQ implements BoardBuilder {
             int row = pos / 5;
             int col = pos % 5;
 
-            tiles[row][col] = new Tile(new Sphere(SphereType.purple));
+            tiles[row][col] = new Tile(new Sphere(SphereType.PURPLE));
         }
 
         for (int row = 0; row < 5; row++) {
@@ -51,19 +51,19 @@ public class BoardBuilderOQ implements BoardBuilder {
 
                 switch (adjacentPurples) {
                     case 0: 
-                        type = SphereType.blue;
+                        type = SphereType.BLUE;
                         break;
                     case 1:
-                        type = SphereType.teal;
+                        type = SphereType.TEAL;
                         break;
                     case 2:
-                        type = SphereType.green;
+                        type = SphereType.GREEN;
                         break;
                     case 3:
-                        type = SphereType.yellow;
+                        type = SphereType.YELLOW;
                         break;
                     case 4:
-                        type = SphereType.orange;
+                        type = SphereType.ORANGE;
                         break;
                     default:
                         throw new IllegalStateException();
@@ -99,7 +99,7 @@ public class BoardBuilderOQ implements BoardBuilder {
                 Tile tile = board.getTiles()[r][c];
 
                 if (tile != null &&
-                    tile.getSphere().getType().getColor() == Color.PURPLE) {
+                    tile.getSphere().getType() == SphereType.PURPLE) {
                     count++;
                 }
             }
