@@ -33,5 +33,8 @@ public class SphereType {
         this.value = newValue;
     }
 
+    void click(){
+        ++timesPressed;
+    }
 
 }
