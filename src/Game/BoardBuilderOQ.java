@@ -19,6 +19,14 @@ public class BoardBuilderOQ implements BoardBuilder {
     }
 
     // takes 4 different purple positions, build the other tiles around them
+    // rules:   color defined by number of adjacent purples  (in the 8 tiles around this tile)
+    //          0: blue
+    //          1: teal
+    //          2: green
+    //          3: yellow
+    //          4: orange
+    // 
+
     public Board build(int[] purples){
         Board board = new Board();
 
