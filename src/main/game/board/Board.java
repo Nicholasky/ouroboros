@@ -1,4 +1,4 @@
-package game.board;
+package main.game.board;
 
 public class Board {
     Tile[][] tiles;

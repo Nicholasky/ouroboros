@@ -1,9 +1,8 @@
-package game.board;
+package main.game.board;
 
-import game.sphere.Sphere;
-import game.sphere.SphereType;
-
-import math.Combinatorics;
+import main.game.sphere.Sphere;
+import main.game.sphere.SphereType;
+import main.math.Combinatorics;
 
 // Intended to build a board based on pre-defined locations of 4 tiles with purple spheres
 // So, take an argument that says "Which arrangement of purple spheres is this?"

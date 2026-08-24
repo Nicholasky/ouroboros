@@ -1,4 +1,4 @@
-package game.sphere;
+package main.game.sphere;
 
 public class SphereType {
     final Color color;
