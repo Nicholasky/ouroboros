@@ -1,7 +1,7 @@
-package main.game.board;
+package game.board;
 
-import main.game.sphere.Sphere;
-import main.game.sphere.SphereType;
+import game.sphere.Sphere;
+import game.sphere.SphereType;
 
 
 public class Tile {

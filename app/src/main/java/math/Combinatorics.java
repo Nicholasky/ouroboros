@@ -1,4 +1,4 @@
-package main.math;
+package math;
 
 public class Combinatorics {
 

@@ -1,4 +1,4 @@
-package main.game.board;
+package game.board;
 
 public interface BoardBuilder {
     Board build();
