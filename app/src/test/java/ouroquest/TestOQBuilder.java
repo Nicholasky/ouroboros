@@ -73,10 +73,34 @@ class TestOQBuilder {
                 }
             }
 
+            boolean fail = false; // for fear of asserting too many times, will assert once instead of 25x
+
             // knowing the positions of purples , validate every other element of this board
+            for(int j = 0; j < 5; j++){
+                for(int k = 0; k < 5; k++){
+                    if( early filter out purples )
+
+                    int heat = 0;
+
+                    // 3x3 grid around current index
+                    for(int j2 = j-1; j2 < j+1; j2++){
+                        for(int k2 = k-1; k2 < k+1; k2++){
+                            if(j2 < 0 || j2 > 4 || k2 < 0 || k2 > 4 || (j2 == j && k2 == k)){
+                                continue;
+                            }else{
+                                for(int m  = 0; m < 4; m++){
+                                    if(j2 == purples[m][0] && k2 == purples[m][1])
+                                        heat++;
+                                }
+                            }
+                        }
+                    }
 
 
-
+                    if(the expected and generated boards dont match at this index)
+                        then fail
+                }
+            }
 
             purpleCount = 0;
         }
