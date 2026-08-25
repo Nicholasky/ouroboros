@@ -78,7 +78,8 @@ class TestOQBuilder {
             // knowing the positions of purples , validate every other element of this board
             for(int j = 0; j < 5; j++){
                 for(int k = 0; k < 5; k++){
-                    if( early filter out purples )
+                    if(tiles[j][k].getSphere().getType() == SphereType.PURPLE)  // a quick check to avoid headaches 
+                        continue;
 
                     int heat = 0;
 
@@ -96,13 +97,38 @@ class TestOQBuilder {
                         }
                     }
 
+                    SphereType type = null;
+                    switch(heat){
+                        case 0:
+                            type = SphereType.BLUE;
+                            break;
+                        case 1:
+                            type = SphereType.TEAL;
+                            break;
+                        case 2:
+                            type = SphereType.GREEN;
+                            break;
+                        case 3:
+                            type = SphereType.YELLOW;
+                            break;
+                        case 4:
+                            type = SphereType.ORANGE;
+                            break;
+                        default:
+                            throw new IllegalStateException();
+                    }
 
-                    if(the expected and generated boards dont match at this index)
-                        then fail
+
+                    if(tiles[j][k].getSphere().getType() != type)
+                        fail = true;
+
                 }
             }
 
+
+            assertFalse(fail);
             purpleCount = 0;
+            
         }
 
 
