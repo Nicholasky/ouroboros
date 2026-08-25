@@ -32,5 +32,42 @@ class TestOQBuilder {
 
     }
 
+    @Test void testAllOQBoardsValid() {
+        int numBoards = Combinatorics.nCr(25, 4);
+
+        BoardBuilderOQ builder = new BoardBuilderOQ();
+        Board[] allBoards = new Board[numBoards];
+
+        for(int i = 0; i < numBoards; i++){
+            allBoards[i] = builder.build(i);
+        }
+
+
+        int purpleCount = 0;
+        int[][] purples = new int[4][2]; // reusable
+
+        for(int i = 0; i < numBoards; i++){
+            Tile[][] tiles = allBoards[numBoards].getTiles();
+            
+            for(int j = 0; j < 5; j++){
+                for(int k = 0; k < 5; k++){
+                    if(tiles[j][k].getSphere().getType() == SphereType.PURPLE){
+                        purples[purpleCount][0] = j;    // just store index pairs to avoid headaches in locating purples
+                        purples[purplecount][1] = k; 
+                        purpleCount++;
+                    }
+                }
+            }
+
+            // knowing the positions of purples , validate every other element of this board
+
+
+
+
+            purpleCount = 0;
+        }
+
+
+    }
 
 }
