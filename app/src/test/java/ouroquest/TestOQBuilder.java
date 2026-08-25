@@ -61,7 +61,7 @@ class TestOQBuilder {
         int[][] purples = new int[4][2]; // reusable
 
         for(int i = 0; i < numBoards; i++){
-            Tile[][] tiles = allBoards[numBoards].getTiles();
+            Tile[][] tiles = allBoards[i].getTiles();
             
             for(int j = 0; j < 5; j++){
                 for(int k = 0; k < 5; k++){
@@ -128,7 +128,7 @@ class TestOQBuilder {
 
             assertFalse(fail);
             purpleCount = 0;
-            
+
         }
 
 
