@@ -23,7 +23,7 @@ class TestOQBuilder {
         // Check all 12650 boards exist without duplicates
         int numBoardsTested = 
             allBoards.stream()
-            .map(Arrays::toString()
+            .map(Arrays::toString)
             .collect(Collectors.toSet())
             .size();
 
