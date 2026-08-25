@@ -6,11 +6,11 @@ package test;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-class AppTest {
+class TestOQBuilder {
 
 
     // Test that all valid combinations of purple spheres create valid boards 
-    @Test void testAllOQBoardStatesExist() {
+    @Test void testAllOQBoardsExist() {
         int numBoards = Combinatorics.nCr(25, 4);
         
         BoardBuilderOQ builder = new BoardBuilderOQ();
@@ -20,9 +20,17 @@ class AppTest {
             allBoards[i] = builder.build(i);
         }
 
-        // Check all boards are valid, and without duplicates
-        // TODO
+        // Check all 12650 boards exist without duplicates
+        int numBoardsTested = 
+            allBoards.stream()
+            .map(Arrays::toString()
+            .collect(Collectors.toSet())
+            .size();
 
+        // If they are not equal, then duplicate boards were removed when creating sets.
+        assertEquals(numBoards, numBoardsTested);
 
     }
+
+
 }
