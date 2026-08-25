@@ -84,8 +84,8 @@ class TestOQBuilder {
                     int heat = 0;
 
                     // 3x3 grid around current index
-                    for(int j2 = j-1; j2 < j+1; j2++){
-                        for(int k2 = k-1; k2 < k+1; k2++){
+                    for(int j2 = j-1; j2 <= j+1; j2++){
+                        for(int k2 = k-1; k2 <= k+1; k2++){
                             if(j2 < 0 || j2 > 4 || k2 < 0 || k2 > 4 || (j2 == j && k2 == k)){
                                 continue;
                             }else{
