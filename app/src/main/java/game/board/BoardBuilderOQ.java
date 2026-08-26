@@ -2,7 +2,6 @@ package game.board;
 
 import game.sphere.Sphere;
 import game.sphere.SphereType;
-
 import math.Combinatorics;
 
 // Intended to build a board based on pre-defined locations of 4 tiles with purple spheres
