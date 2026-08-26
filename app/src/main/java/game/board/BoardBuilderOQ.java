@@ -36,27 +36,27 @@ public class BoardBuilderOQ implements BoardBuilder {
         Board board = new Board();
         Tile[][] tiles = board.getTiles();
 
+        int[][] heatmap = new int[5][5];
+
         for (int pos : purples) {
             int row = pos / 5;
             int col = pos % 5;
+            heatmap[row][col] = -8; // lazy sentinel for purples
 
-            tiles[row][col] = new Tile(new Sphere(SphereType.PURPLE));
+            for(int i = row-1; i <= row+1; i++){
+                for(int j = col-1; j <= col+1; j++){
+                    if(i < 0 || j < 0 || i > 4 || j > 4)
+                        continue;
+                    heatmap[i][j]++;
+                }
+            }
         }
 
-        for (int row = 0; row < 5; row++) {
-            for (int col = 0; col < 5; col++) {
-
-                if (tiles[row][col] != null) {
-                    continue;
-                }
-
-                int adjacentPurples =
-                    countAdjacentPurples(board, row, col);
-
-                SphereType type; 
-
-                switch (adjacentPurples) {
-                    case 0: 
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 5; j++){
+                SphereType type = null;
+                switch(heatmap[i][j]){
+                    case 0:
                         type = SphereType.BLUE;
                         break;
                     case 1:
@@ -72,46 +72,16 @@ public class BoardBuilderOQ implements BoardBuilder {
                         type = SphereType.ORANGE;
                         break;
                     default:
-                        throw new IllegalStateException();
-                };
+                        type = SphereType.PURPLE;   // technically fragile but should only occur for negative heat values
+                        break;
+                }
 
-                tiles[row][col] = new Tile(new Sphere(type));
+                tiles[i][j] = new Tile(new Sphere(type));
+
             }
-
         }
 
         return board;
-    }
-
-
-    private int countAdjacentPurples(Board board, int row, int col) {
-        int count = 0;
-
-        for (int dr = -1; dr <= 1; dr++) {
-            for (int dc = -1; dc <= 1; dc++) {
-
-                if (dr == 0 && dc == 0) {
-                    continue;
-                }
-
-                int r = row + dr;
-                int c = col + dc;
-
-                // avoid outofbounds checking
-                if (r < 0 || r >= 5 || c < 0 || c >= 5) {
-                    continue;
-                }
-
-                Tile tile = board.getTiles()[r][c];
-
-                if (tile != null &&
-                    tile.getSphere().getType() == SphereType.PURPLE) {
-                    count++;
-                }
-            }
-        }
-
-        return count;
     }
 
 }
