@@ -36,12 +36,49 @@ public class BoardBuilderOQ implements BoardBuilder {
         Board board = new Board();
         Tile[][] tiles = board.getTiles();
 
+        int[][] heatmap = new int[5][5];
 
         for (int pos : purples) {
             int row = pos / 5;
             int col = pos % 5;
+            heatmap[row][col] = -8; // lazy sentinel for purples
 
             tiles[row][col] = new Tile(new Sphere(SphereType.PURPLE));
+
+            for(int i = row-1; i <= row+1; i++){
+                for(int j = col-1; j <= col+1; j++){
+                    if(i < 0 || j < 0 || i > 4 || j > 4)
+                        continue;
+                    heatmap[i][j]++;
+                }
+            }
+        }
+
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 5; j++){
+                SphereType type = null;
+                switch(heatmap[i][j]){
+                    case 0:
+                        type = SphereType.BLUE;
+                        break;
+                    case 1:
+                        type = SphereType.TEAL;
+                        break;
+                    case 2:
+                        type = SphereType.GREEN;
+                        break;
+                    case 3:
+                        type = SphereType.YELLOW;
+                        break;
+                    case 4:
+                        type = SphereType.ORANGE;
+                        break;
+                    default:
+                        type = SphereType.PURPLE;   // technically fragile but should only occur for negative heat values
+                        break;
+                }
+
+            }
         }
 
 
