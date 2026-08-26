@@ -43,8 +43,6 @@ public class BoardBuilderOQ implements BoardBuilder {
             int col = pos % 5;
             heatmap[row][col] = -8; // lazy sentinel for purples
 
-            tiles[row][col] = new Tile(new Sphere(SphereType.PURPLE));
-
             for(int i = row-1; i <= row+1; i++){
                 for(int j = col-1; j <= col+1; j++){
                     if(i < 0 || j < 0 || i > 4 || j > 4)
@@ -78,10 +76,10 @@ public class BoardBuilderOQ implements BoardBuilder {
                         break;
                 }
 
+                tiles[i][j] = new Tile(new Sphere(type));
+
             }
         }
-
-
 
         return board;
     }
