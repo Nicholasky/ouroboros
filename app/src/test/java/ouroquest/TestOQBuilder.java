@@ -9,15 +9,9 @@ import java.util.stream.Collectors;
 import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
-import game.board.Tile;
-import game.board.Board;
 import game.board.BoardBuilderOQ;
 
 import math.Combinatorics;
-
-import game.sphere.Sphere;
-import game.sphere.SphereType;
-
 
 
 class TestOQBuilder {
@@ -50,10 +44,10 @@ class TestOQBuilder {
         int numBoards = Combinatorics.nCr(25, 4);
 
         BoardBuilderOQ builder = new BoardBuilderOQ();
-        Board[] allBoards = new Board[numBoards];
+        int[][][] allBoards = new int[numBoards][5][5];
 
         for(int i = 0; i < numBoards; i++){
-            allBoards[i] = builder.build(i);
+            allBoards[i] = builder.buildHeat(i);
         }
 
 
@@ -61,11 +55,10 @@ class TestOQBuilder {
         int[][] purples = new int[4][2]; // reusable
 
         for(int i = 0; i < numBoards; i++){
-            Tile[][] tiles = allBoards[i].getTiles();
-            
+            int[][] tiles = allBoards[i];
             for(int j = 0; j < 5; j++){
                 for(int k = 0; k < 5; k++){
-                    if(tiles[j][k].getSphere().getType() == SphereType.PURPLE){
+                    if(tiles[j][k] == -1){
                         purples[purpleCount][0] = j;    // just store index pairs to avoid headaches in locating purples
                         purples[purpleCount][1] = k; 
                         purpleCount++;
@@ -78,10 +71,10 @@ class TestOQBuilder {
             // knowing the positions of purples , validate every other element of this board
             for(int j = 0; j < 5; j++){
                 for(int k = 0; k < 5; k++){
-                    if(tiles[j][k].getSphere().getType() == SphereType.PURPLE)  // a quick check to avoid headaches 
+                    if(tiles[j][k] == -1)  // a quick check to avoid headaches 
                         continue;
 
-                    int heat = 0;
+                    int expectedHeat = 0;
 
                     // 3x3 grid around current index
                     for(int j2 = j-1; j2 <= j+1; j2++){
@@ -91,35 +84,13 @@ class TestOQBuilder {
                             }else{
                                 for(int m  = 0; m < 4; m++){
                                     if(j2 == purples[m][0] && k2 == purples[m][1])
-                                        heat++;
+                                        expectedHeat++;
                                 }
                             }
                         }
                     }
 
-                    SphereType type = null;
-                    switch(heat){
-                        case 0:
-                            type = SphereType.BLUE;
-                            break;
-                        case 1:
-                            type = SphereType.TEAL;
-                            break;
-                        case 2:
-                            type = SphereType.GREEN;
-                            break;
-                        case 3:
-                            type = SphereType.YELLOW;
-                            break;
-                        case 4:
-                            type = SphereType.ORANGE;
-                            break;
-                        default:
-                            throw new IllegalStateException();
-                    }
-
-
-                    if(tiles[j][k].getSphere().getType() != type)
+                    if(tiles[j][k] != expectedHeat)
                         fail = true;
 
                 }
