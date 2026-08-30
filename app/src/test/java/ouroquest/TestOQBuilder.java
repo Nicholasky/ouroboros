@@ -28,16 +28,16 @@ class TestOQBuilder {
         int numBoards = Combinatorics.nCr(25, 4);
         
         BoardBuilderOQ builder = new BoardBuilderOQ();
-        Board[] allBoards = new Board[numBoards];
+        int[][][] allBoards = new int[numBoards][5][5];
 
         for(int i = 0; i < numBoards; i++){
-            allBoards[i] = builder.build(i);
+            allBoards[i] = builder.buildHeat(i);
         }
 
         // Check all 12650 boards exist without duplicates
         int numBoardsTested = 
             Arrays.stream(allBoards)
-            .map(Board::toString)
+            .map(Arrays::deepToString)
             .collect(Collectors.toSet())
             .size();
 
