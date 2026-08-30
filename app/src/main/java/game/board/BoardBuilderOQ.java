@@ -62,7 +62,37 @@ public class BoardBuilderOQ implements BoardBuilder {
         Board board = new Board();
         Tile[][] tiles = board.getTiles();
 
-        // ...
+
+        for(int i = 0; i < 5; i++){
+            for(int j = 0; j < 5; j++){
+                SphereType type = null;
+                switch(heatmap[i][j]){
+                    case 0:
+                        type = SphereType.BLUE;
+                        break;
+                    case 1:
+                        type = SphereType.TEAL;
+                        break;
+                    case 2:
+                        type = SphereType.GREEN;
+                        break;
+                    case 3:
+                        type = SphereType.YELLOW;
+                        break;
+                    case 4:
+                        type = SphereType.ORANGE;
+                        break;
+                    default:
+                        type = SphereType.PURPLE;   // technically fragile but should only occur for negative heat values
+                        break;
+                }
+
+                tiles[i][j] = new Tile(new Sphere(type));
+
+            }
+        }
+
+        return board;
     }
 
 }
