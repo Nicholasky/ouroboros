@@ -44,11 +44,11 @@ public class BoardBuilderOQ implements BoardBuilder {
         for (int pos : purples) {
             int row = pos / 5;
             int col = pos % 5;
-            heatmap[row][col] = -8; // lazy sentinel for purples
+            heatmap[row][col] = -1; // lazy sentinel for purples
 
             for(int i = row-1; i <= row+1; i++){
                 for(int j = col-1; j <= col+1; j++){
-                    if(i < 0 || j < 0 || i > 4 || j > 4)
+                    if(i < 0 || j < 0 || i > 4 || j > 4 || heatmap[i][j] == -1)
                         continue;
                     heatmap[i][j]++;
                 }
