@@ -1,21 +1,32 @@
 package solver.oq;
 
-public class OQTruthTable {
+import java.util.BitSet;
 
-    // Need faster comparisons at cost of space
-    
-    // So Implement OQTruthTable as:
+// Need faster comparisons at cost of space
 
-    // BitSet[a][b] c
-    // a: The board slot (0 - 24)
-    // b: Heat index at that slot (-1 - 4)
-    // c: 12650 bits. A bit d is true if board with rank d (0 <= d < 12650) contains the slot-heat pair (a, b).
+// So Implement OQTruthTable as:
 
-    // This costs A Lot of space (~ 25 * 6 * 12650/8 B ~ 420KB)
-    // but provides O(1) lookup and possibility to O(1) 'AND' out solutions that dont work
-    // with a possibility of L2 cache misses****
+// BitSet[a][b] c
+// a: The board slot (0 - 24)
+// b: Heat index at that slot (-1 - 4)
+// c: 12650 bits. A bit d is true if board with rank d (0 <= d < 12650) contains the slot-heat pair (a, b).
 
-    // but reducing the time complexity of "reducing the problem size" in the recursive step to O(1) <with Bitwise AND> is worth it.
+// This costs A Lot of space (~ 25 * 6 * 12650/8 B ~ 420KB)
+// but provides O(1) lookup and possibility to O(1) 'AND' out solutions that dont work
+// with a possibility of L2 cache misses****
+
+// but reducing the time complexity of "reducing the problem size" in the recursive step to O(1) <with Bitwise AND> is worth it.
+
+public final class OQTruthTable {
+// should this problem ever be expanded for non-standard OQ board sizes, this constants setup will need revisiting.
+private static final int POSSIBLE_SLOTS = 25;
+private static final int POSSIBLE_HEATS = 6;
+private static final int POSSIBLE_BOARDS = 12650;
+
+private static final BitSet[][] VALID_BOARDS = new BitSet[POSSIBLE_SLOTS][POSSIBLE_HEATS];
+
+private OQTruthTable(){}
+
 
 
 
