@@ -12,17 +12,23 @@ import math.Combinatorics;
 public class BoardBuilderOQ implements BoardBuilder {
 
     // randomly make a board by default
-    public Board build(){
+    public Board buildBoard(){
         int rand = (int)Math.floor(12650.0 * Math.random());
-        return build(rand);
+        return buildBoard(rand);
     }
 
     // supply an arrangement (0 to 12649)
-    public Board build(int arrangement){
+    public Board buildBoard(int arrangement){
+        return heatToBoard(buildHeat(arrangement));
+    }
+
+    public int[][] buildHeat(int arrangement){
         int[] purples = Combinatorics.decodeArrangement(arrangement, 4);
-    
+
         return build(purples);
     }
+
+    
 
     
     // takes 4 different purple positions, build the other tiles around them
@@ -32,25 +38,30 @@ public class BoardBuilderOQ implements BoardBuilder {
     //          2: green
     //          3: yellow
     //          4: orange
-    public Board build(int[] purples){
-        Board board = new Board();
-        Tile[][] tiles = board.getTiles();
-
+    public int[][] build(int[] purples){
         int[][] heatmap = new int[5][5];
 
         for (int pos : purples) {
             int row = pos / 5;
             int col = pos % 5;
-            heatmap[row][col] = -8; // lazy sentinel for purples
+            heatmap[row][col] = -1; // lazy sentinel for purples
 
             for(int i = row-1; i <= row+1; i++){
                 for(int j = col-1; j <= col+1; j++){
-                    if(i < 0 || j < 0 || i > 4 || j > 4)
+                    if(i < 0 || j < 0 || i > 4 || j > 4 || heatmap[i][j] == -1)
                         continue;
                     heatmap[i][j]++;
                 }
             }
         }
+
+        return heatmap;
+    }
+
+    Board heatToBoard(int[][] heatmap){
+        Board board = new Board();
+        Tile[][] tiles = board.getTiles();
+
 
         for(int i = 0; i < 5; i++){
             for(int j = 0; j < 5; j++){
