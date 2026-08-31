@@ -25,22 +25,28 @@ private static final int MIN_HEAT = -1;
 private static final int MAX_HEAT = 4;
 private static final int POSSIBLE_BOARDS = 12650;
 
-private static final BitSet[][] VALID_BOARDS = new BitSet[POSSIBLE_SLOTS][POSSIBLE_HEATS];
+private static final BitSet[][] TRUTH_TABLE = new BitSet[POSSIBLE_SLOTS][POSSIBLE_HEATS];
+private static boolean populatedTT = false;
 
 static{
 
 }
 
+// An expensive operation
 private static void constructTruthTable(){
+    if(populatedTT) 
+        return;
+
     // add heatmap = bla bla bla
 
     for(int i = 0; i < POSSIBLE_SLOTS; i++){
         for(int j = 0; j < POSSIBLE_HEATS; j++){
-            VALID_BOARDS[i][j] = new BitSet(12650);
+            TRUTH_TABLE[i][j] = new BitSet(12650);
         }
     }
 
 
+    populatedTT = true;
 }
 
 
