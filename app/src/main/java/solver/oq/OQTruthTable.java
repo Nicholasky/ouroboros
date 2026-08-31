@@ -21,9 +21,28 @@ public final class OQTruthTable {
 // should this problem ever be expanded for non-standard OQ board sizes, this constants setup will need revisiting.
 private static final int POSSIBLE_SLOTS = 25;
 private static final int POSSIBLE_HEATS = 6;
+private static final int MIN_HEAT = -1;
+private static final int MAX_HEAT = 4;
 private static final int POSSIBLE_BOARDS = 12650;
 
 private static final BitSet[][] VALID_BOARDS = new BitSet[POSSIBLE_SLOTS][POSSIBLE_HEATS];
+
+static{
+
+}
+
+private static void constructTruthTable(){
+    // add heatmap = bla bla bla
+
+    for(int i = 0; i < POSSIBLE_SLOTS; i++){
+        for(int j = 0; j < POSSIBLE_HEATS; j++){
+            VALID_BOARDS[i][j] = new BitSet(12650);
+        }
+    }
+
+
+}
+
 
 private OQTruthTable(){}
 
