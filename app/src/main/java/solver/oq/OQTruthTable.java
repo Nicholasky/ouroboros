@@ -31,7 +31,7 @@ private static final BitSet[][] TRUTH_TABLE = new BitSet[POSSIBLE_SLOTS][POSSIBL
 private static boolean populatedTT = false;
 
 static{
-
+    constructTruthTable();
 }
 
 // An expensive operation
@@ -75,6 +75,16 @@ private static void constructTruthTable(){
 
 private OQTruthTable(){}
 
+
+// returns a BitSet with <number of unique boards> bits
+// bit-value of 1 at position n represents that board with id n has the same heat at that tile.  
+public static BitSet getBoardsMatching(int slot, int heat){
+    if(!populatedTT)
+        return null;    // not populated, get null ... maybe error throw is better
+
+    BitSet bits = (BitSet)TRUTH_TABLE[slot][heat].clone();  // clone; want guaranteed immutability of truth table   <though this isnt the ideal solution>
+    return bits;
+}
 
 
 
