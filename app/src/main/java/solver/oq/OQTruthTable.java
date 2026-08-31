@@ -1,6 +1,8 @@
 package solver.oq;
 
 import java.util.BitSet;
+import game.board.BoardBuilderOQ;   // for heatmap
+
 
 // Need faster comparisons at cost of space
 
@@ -37,16 +39,32 @@ private static void constructTruthTable(){
     if(populatedTT) 
         return;
 
-    // add heatmap = bla bla bla
+    // data received as int[board-id][row 0.4][col 0-4] Not ideal for us here but we can make do 
+    // --> transform to int[board-id][slot 0-24] as we go  (taking 2x as long to make later population easier) -- prolly not worth it
+    int[][] allHeatmaps = new int[POSSIBLE_BOARDS][POSSIBLE_SLOTS];
+    BoardBuilderOQ bbOQ = new BoardBuilderOQ();
+
+    for(int i = 0; i < POSSIBLE_BOARDS; i++){
+        // arr[5 slots][5 slots]
+        int[][] heatmap = bbOQ.buildHeat(i);
+
+        for(int j = 0; j < 5; j++){
+            for(int k = 0; k < 5; k++){
+                int combinedIndex = j * 5 + k;
+                allHeatmaps[i][combinedIndex] = heatmap[j][k];
+            }
+        }
+    }
 
     for(int i = 0; i < POSSIBLE_SLOTS; i++){
         for(int j = 0; j < POSSIBLE_HEATS; j++){
             TRUTH_TABLE[i][j] = new BitSet(12650);  // initial values FALSE
         }
 
-        for(int m = 0; m < POSSIBLE_BOARDS; m++){
+        for(int k = 0; k < POSSIBLE_BOARDS; k++){
+            int heat = allHeatmaps[k][i]; // i fear this may cause cache misses
             int heatIndex = heat - MIN_HEAT;
-            TRUTH_TABLE[i][heatIndex].set(m);
+            TRUTH_TABLE[i][heatIndex].set(k);
         }
     }
 
