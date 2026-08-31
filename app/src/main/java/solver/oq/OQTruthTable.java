@@ -41,7 +41,12 @@ private static void constructTruthTable(){
 
     for(int i = 0; i < POSSIBLE_SLOTS; i++){
         for(int j = 0; j < POSSIBLE_HEATS; j++){
-            TRUTH_TABLE[i][j] = new BitSet(12650);
+            TRUTH_TABLE[i][j] = new BitSet(12650);  // initial values FALSE
+        }
+
+        for(int m = 0; m < POSSIBLE_BOARDS; m++){
+            int heatIndex = heat - MIN_HEAT;
+            TRUTH_TABLE[i][heatIndex].set(m);
         }
     }
 
