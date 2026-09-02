@@ -82,7 +82,7 @@ public final class OQTruthTable {
         if(!populatedTT)
             return null;    // not populated, get null ... maybe error throw is better
 
-        BitSet bits = (BitSet)TRUTH_TABLE[slot][heat].clone();  // clone; want guaranteed immutability of truth table   <though this isnt the ideal solution>
+        BitSet bits = TRUTH_TABLE[slot][heat];  // return this BitSet... though an outsider CAN mutate it, trust them not to
         return bits;
     }
 
