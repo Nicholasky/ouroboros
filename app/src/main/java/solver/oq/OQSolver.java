@@ -16,12 +16,27 @@ public class OQSolver {
     
     public int solve(){
         return solveRecur(state, remainingboards, movesleft);
-
+        
     }
 
 
     private int solveRecur(??? state, BitSet remainingboards, int movesLeft){
         
+
+        // Problem:
+        // it is unknown which board is being played;
+        // the "board" makes a choice in reveal information every turn.
+
+        // idea to solve:
+        // recurse on "expected value" of boards
+        // so that the unknown "board choice" is accounted for,
+        // together with teh probability that choice occurs
+
+        // BitSet b = OQTruthTable.getMatchingBoards(d, h) 
+        // P(tile d has heat h) = b.cardinality / remainingBoards.cardinality  
+
+        // Recursive call would be: (For all tile-heat combinations, get maximum of): 
+        //      (b.cardinality / remainingBoards.cardinality) * solveRecur(state, b, movesLeft)
 
     }
 
