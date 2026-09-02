@@ -18,7 +18,8 @@ public class OQSolver {
     public int solve(){
         BitSet bits = new BitSet(12650);
         bits.set(0, 12650);
-        return solveRecur(bits, NUM_MOVES);
+        BitSet revealed = new BitSet(25);   // the idea of a "revealed" BitSet is to not accidentally pick the same square twice.
+        return solveRecur(revealed, bits, NUM_MOVES);
         
     }
 
@@ -37,7 +38,7 @@ public class OQSolver {
 
     // Recursive call would be: (For all tile-heat combinations, get maximum of): 
     //      (b.cardinality / remainingBoards.cardinality) * solveRecur(state, b, movesLeft
-    private int solveRecur(BitSet remainingBoards, int movesLeft){
+    private int solveRecur(BitSet revealed, BitSet remainingBoards, int movesLeft){
         int val = 0;
 
         // cardinality = 0 should only be possible if an invalid move occurs
@@ -49,9 +50,22 @@ public class OQSolver {
         }
 
 
+        for(int i = 0; i < 25; i++){    // 25 slots
+            if(revealed.get(i))
+                continue;   // skip revealed = true
+
+            for(int j = 0; j < 6; j++){ // 6 heats
+                if(OQTruthTable.getBoardsMatching(i, j).intersects(remainingBoards)){ // If this move is valid
+                    Run this move, have extra conditional checks, etc, add its result to a list.
+                }
+            }
+
+        }
+
+        Maximum of values in the list
 
 
-        return val; // TEMP 
+        return val; // TEMP  
 
     }
 
