@@ -1,6 +1,7 @@
 package solver.oq;
 
 import java.util.BitSet;
+import java.util.ArrayList;
 
 // intends to solve OQ boards / show optimal moves given a board state
 // as the hidden state of the board is unveiled, different pre-solved recommendations are made
@@ -14,11 +15,13 @@ import java.util.BitSet;
 
 public class OQSolver {
     private static final int NUM_MOVES = 7;
-    
+
+
     public int solve(){
         BitSet bits = new BitSet(12650);
         bits.set(0, 12650);
         BitSet revealed = new BitSet(25);   // the idea of a "revealed" BitSet is to not accidentally pick the same square twice.
+        
         return solveRecur(revealed, bits, NUM_MOVES);
         
     }
@@ -50,13 +53,27 @@ public class OQSolver {
         }
 
 
+        ArrayList<Double> moveEV = new ArrayList<Double>();
+
         for(int i = 0; i < 25; i++){    // 25 slots
             if(revealed.get(i))
                 continue;   // skip revealed = true
 
             for(int j = 0; j < 6; j++){ // 6 heats
-                if(OQTruthTable.getBoardsMatching(i, j).intersects(remainingBoards)){ // If this move is valid
-                    Run this move, have extra conditional checks, etc, add its result to a list.
+                BitSet boardsMatchingCondition = OQTruthTable.getBoardsMatching(i, j);
+                if(boardsMatchingCondition.intersects(remainingBoards)){ // If this move is valid
+                    // Run this move, have extra conditional checks, etc, add its result to a list.
+
+                    // Don't like all this cloning. Need to look alternatives
+                    BitSet nextPosition = (BitSet)remainingBoards.clone();
+                    nextPosition.and(boardsMatchingCondition);
+
+                    BitSet nextRevealed = (BitSet)revealed.clone();
+                    nextRevealed.set(i);
+
+                    // TODO FIX
+                    moveEV.add(solveRecur(nextRevealed, nextPosition, j == 0 ? movesLeft : movesLeft - 1));
+
                 }
             }
 
