@@ -1,6 +1,9 @@
 package solver.oq;
 
 import java.util.BitSet;
+
+import game.sphere.SphereType;
+
 import java.util.ArrayList;
 
 // intends to solve OQ boards / show optimal moves given a board state
@@ -103,6 +106,29 @@ public class OQSolver {
 
     }
 
+
+    private int _getImmediateValue(int heat, int numPurples){
+        int value = 0;
+        heat++;
+
+        switch(heat){   
+
+            // [Rule: the last purple becomes a red]
+            case 0: value = numPurples == 4 
+                ? SphereType.RED.getValue() 
+                : SphereType.PURPLE.getValue(); break;
+
+            case 1: value = SphereType.BLUE.getValue(); break;
+            case 2: value = SphereType.TEAL.getValue(); break;
+            case 3: value = SphereType.GREEN.getValue(); break;
+            case 4: value = SphereType.YELLOW.getValue(); break;
+            case 5: value = SphereType.ORANGE.getValue(); break;
+
+        }
+
+
+        return value;
+    }
     
 
 }
