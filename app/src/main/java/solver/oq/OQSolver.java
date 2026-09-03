@@ -22,7 +22,7 @@ public class OQSolver {
         bits.set(0, 12650);
         BitSet revealed = new BitSet(25);   // the idea of a "revealed" BitSet is to not accidentally pick the same square twice.
         
-        return solveRecur(revealed, bits, NUM_MOVES);
+        return solveRecur(revealed, bits, 0, NUM_MOVES);
         
     }
 
@@ -41,7 +41,7 @@ public class OQSolver {
 
     // Recursive call would be: (For all tile-heat combinations, get maximum of): 
     //      (b.cardinality / remainingBoards.cardinality) * solveRecur(state, b, movesLeft
-    private int solveRecur(BitSet revealed, BitSet remainingBoards, int movesLeft){
+    private int solveRecur(BitSet revealed, BitSet remainingBoards, int purplesFound, int movesLeft){
         int val = 0;
 
         // cardinality = 0 should only be possible if an invalid move occurs
@@ -71,8 +71,13 @@ public class OQSolver {
                     BitSet nextRevealed = (BitSet)revealed.clone();
                     nextRevealed.set(i);
 
-                    // TODO FIX
-                    moveEV.add(solveRecur(nextRevealed, nextPosition, j == 0 ? movesLeft : movesLeft - 1));
+
+                    int nextMovesLeft = j == 0 && purplesFound < 3 ? movesLeft : movesLeft - 1;
+
+                    // technically nextPurplesFound could be encoded in nextRevealed with some type changes but I don't want the trouble 
+                    int nextPurplesFound = purplesFound + (j == 0 ? 1 : 0); 
+
+                    moveEV.add(Double.valueOf(solveRecur(nextRevealed, nextPosition, nextPurplesFound, nextMovesLeft)));
 
                 }
             }
