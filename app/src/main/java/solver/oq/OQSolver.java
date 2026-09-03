@@ -17,7 +17,7 @@ public class OQSolver {
     private static final int NUM_MOVES = 7;
 
 
-    public int solve(){
+    public double solve(){
         BitSet bits = new BitSet(12650);
         bits.set(0, 12650);
         BitSet revealed = new BitSet(25);   // the idea of a "revealed" BitSet is to not accidentally pick the same square twice.
@@ -41,9 +41,7 @@ public class OQSolver {
 
     // Recursive call would be: (For all tile-heat combinations, get maximum of): 
     //      (b.cardinality / remainingBoards.cardinality) * solveRecur(state, b, movesLeft
-    private int solveRecur(BitSet revealed, BitSet remainingBoards, int purplesFound, int movesLeft){
-        int val = 0;
-
+    private double solveRecur(BitSet revealed, BitSet remainingBoards, int purplesFound, int movesLeft){
         // cardinality = 0 should only be possible if an invalid move occurs
         if(remainingBoards.cardinality() == 0)
             return 0;
@@ -53,7 +51,8 @@ public class OQSolver {
         }
 
 
-        ArrayList<Double> moveEV = new ArrayList<Double>();
+        double bestEV = -Double.MAX_VALUE;
+        // int bestMove = -1;
 
         for(int i = 0; i < 25; i++){    // 25 slots
             if(revealed.get(i))
@@ -77,17 +76,27 @@ public class OQSolver {
                     // technically nextPurplesFound could be encoded in nextRevealed with some type changes but I don't want the trouble 
                     int nextPurplesFound = purplesFound + (j == 0 ? 1 : 0); 
 
-                    moveEV.add(Double.valueOf(solveRecur(nextRevealed, nextPosition, nextPurplesFound, nextMovesLeft)));
+
+                    double probability = (double)nextPosition.cardinality() / remainingBoards.cardinality(); 
+                    double immediateValue = _getImmediateValue(j, nextPurplesFound);    // just to put the code somewhere else
+                    double futureValue = solveRecur(nextRevealed, nextPosition, nextPurplesFound, nextMovesLeft);
+
+                    double value = immediateValue + futureValue;
+
+                    double currEV = probability * value;
+                    if(bestEV < currEV){
+                        bestEV = currEV;
+                        // bestMove = i;
+                    }
+
 
                 }
             }
 
         }
 
-        Maximum of values in the list
-
-
-        return val; // TEMP  
+    
+        return bestEV;  
 
     }
 
