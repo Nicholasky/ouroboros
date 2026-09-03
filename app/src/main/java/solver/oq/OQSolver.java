@@ -58,6 +58,8 @@ public class OQSolver {
             if(revealed.get(i))
                 continue;   // skip revealed = true
 
+            double tileEV = 0.0;
+
             for(int j = 0; j < 6; j++){ // 6 heats
                 BitSet boardsMatchingCondition = OQTruthTable.getBoardsMatching(i, j);
                 if(boardsMatchingCondition.intersects(remainingBoards)){ // If this move is valid
@@ -83,14 +85,15 @@ public class OQSolver {
 
                     double value = immediateValue + futureValue;
 
-                    double currEV = probability * value;
-                    if(bestEV < currEV){
-                        bestEV = currEV;
-                        // bestMove = i;
-                    }
-
+                    double tileHeatEV = probability * value;
+                    tileEV += tileHeatEV;
 
                 }
+            }
+
+            if(tileEV > bestEV){
+                bestEV = tileEV;
+                // bestMove = i;
             }
 
         }
