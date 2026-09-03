@@ -4,7 +4,6 @@ import java.util.BitSet;
 
 import game.sphere.SphereType;
 
-import java.util.ArrayList;
 
 // intends to solve OQ boards / show optimal moves given a board state
 // as the hidden state of the board is unveiled, different pre-solved recommendations are made
